@@ -1,18 +1,26 @@
 
-<div *ngIf="forumDto">
-  <h2>
-    f/{{forumDto.name}}
-  </h2>
-  <p>
-    {{forumDto.id}}
-  </p>
-  <p>
-    {{forumDto.updated}}
-  </p>
-  <p>
-    {{forumDto.created}}
-  </p>
-  <p>
-    {{forumDto.description}}
-  </p>
-</div>
+  <div class="row">
+    <div *ngIf="forumDto$ | async as forumDto; else spinnerBlock">
+      <h2>
+        f/{{forumDto.name}}
+      </h2>
+      <p>
+        {{forumDto.id}}
+      </p>
+      <p>
+        {{forumDto.updated}}
+      </p>
+      <p>
+        {{forumDto.created}}
+      </p>
+      <p>
+        <strong>{{forumDto.description}}</strong>
+      </p>
+      <p [innerHtml]=convertMarkdown(forumDto.description)></p>
+    </div>
+    <ng-template #spinnerBlock>
+      <div>
+        <i style="color:tomato" class="fas fa-spinner fa-spin fa-3x"></i>
+      </div>
+    </ng-template>
+  </div>

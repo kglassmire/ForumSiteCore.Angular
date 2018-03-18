@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Forumsitecore.Angular</title>
@@ -7,8 +8,34 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ"
+    crossorigin="anonymous"></script>
 </head>
-<body>
-  <app-root></app-root>
+
+<body class="d-flex flex-column">
+  <app-root class="container-fluid flex-grow"></app-root>
+  <footer class="bg-dark text-white mt-4">
+    <div class="container-fluid py-3">
+      <div class="row">
+        <div class="col-md-3">
+          <h5>Footer</h5>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">I stay at the bottom of the viewport!
+          <span class="small">
+            <br>Unless the page content pushes me further.</span>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3 text-right small align-self-end">©2017 Brand, Inc.</div>
+      </div>
+    </div>
+  </footer>
 </body>
+
 </html>
