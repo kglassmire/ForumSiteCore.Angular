@@ -1,25 +1,23 @@
-<div *ngIf="forumDto$ | async as forumDto; else spinnerBlock">
+<div *ngIf="forumPostListing$ | async as forumPostListing; else spinnerBlock">
   <div class="grid-container">
     <div class="header">
       <h2>
-        f/{{forumDto.name}}
+        f/{{forumPostListing.forum.name}}
       </h2>
     </div>
     <div class="content">
       <p>
-        {{forumDto.id}}
+        {{forumPostListing}}
+        {{forumPostListing.forum.id}}
       </p>
       <p>
-        {{forumDto.updated}}
+        {{forumPostListing.forum.created}}
       </p>
       <p>
-        {{forumDto.created}}
-      </p>
-      <p>
-        <strong>{{forumDto.description}}</strong>
+        <strong>{{forumPostListing.forum.description}}</strong>
       </p>
     </div>
-    <div [innerHtml]=convertMarkdown(forumDto.description) class="menu"></div>
+    <div [innerHtml]=convertMarkdown(forumPostListing.forum.description) class="menu"></div>
   </div>
   <ng-template #spinnerBlock>
     <div>

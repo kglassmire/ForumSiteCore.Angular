@@ -11,13 +11,15 @@ import { ForumComponent } from './forum/forum.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './footer/footer.component';
+import { ForumSearchComponent } from './forum-search/forum-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ForumComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ForumSearchComponent
   ],
   imports: [
     BrowserModule,

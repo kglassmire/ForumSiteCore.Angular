@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ForumDto, ForumService } from '../forum.service';
+import { ForumService, ForumPostListing } from '../forum.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { MarkdownService } from '../markdown.service';
@@ -12,7 +12,7 @@ import { MarkdownService } from '../markdown.service';
   styleUrls: ['./forum.component.css']
 })
 export class ForumComponent implements OnInit {
-  forumDto$: Observable<ForumDto>;
+  forumPostListing$: Observable<ForumPostListing>;
   constructor(
     private forumService: ForumService,
     private route: ActivatedRoute,
@@ -25,11 +25,11 @@ export class ForumComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.forumDto$ = this.route.paramMap
+    this.forumPostListing$ = this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.forumService.get(+params.get('id')));
+        this.forumService.hot(params.get('name')));
 
-    this.forumDto$.subscribe((v) => console.log('got new forumDto: ', v));
+    this.forumPostListing$.subscribe((v) => console.log('got new forumDto: ', v));
   }
 
 }
