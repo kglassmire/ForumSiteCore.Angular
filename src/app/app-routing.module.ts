@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ForumComponent } from './forum/forum.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/f/all', pathMatch: 'full'},
+  {path: '', redirectTo: '/f/home', pathMatch: 'full'},
   {path: 'f/:name', component: ForumComponent}
 
 ];

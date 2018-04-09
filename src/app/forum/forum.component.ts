@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ForumService, ForumPostListing } from '../forum.service';
+import { ForumService, ForumPostListing } from '../api.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { MarkdownService } from '../markdown.service';

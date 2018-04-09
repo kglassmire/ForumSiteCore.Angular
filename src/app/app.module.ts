@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { ForumService, API_BASE_URL } from './forum.service';
+import { ForumService, API_BASE_URL } from './api.service';
 import { MarkdownService } from './markdown.service';
 import { environment } from '../environments/environment.prod';
 import { AppComponent } from './app.component';
@@ -12,6 +12,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './footer/footer.component';
 import { ForumSearchComponent } from './forum-search/forum-search.component';
+import { PostListComponent } from './post-list/post-list.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ForumSearchComponent } from './forum-search/forum-search.component';
     ForumComponent,
     NavbarComponent,
     FooterComponent,
-    ForumSearchComponent
+    ForumSearchComponent,
+    PostListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

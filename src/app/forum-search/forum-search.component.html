@@ -1,4 +1,11 @@
-<form class="form-inline my-2 my-lg-0">
-    <input id="typeahead-basic" placeholder="Find a forum" type="text" class="form-control mr-sm-2" aria-label="Forum Search" (selectItem)="selectedItem($event)"  [(ngModel)]="model" [ngbTypeahead]="search"/>
-  </form>
+<div class="input-group mb-2 mr-sm-2">
+  <div class="input-group-prepend">
+    <div class="input-group-text">
+      /f/
+    </div>
+  </div>  
+  <input id="typeahead-basic" placeholder="Find a forum" type="text" class="form-control" aria-label="Forum Search" (selectItem)="selectedItem($event)"  [(ngModel)]="model" [ngbTypeahead]="search"/>
+</div>
+
+
   

@@ -3,8 +3,9 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { ForumService } from '../forum.service';
+import { ForumService } from '../api.service';
 import { Router } from '@angular/router';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-forum-search',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./forum-search.component.css']
 })
 export class ForumSearchComponent implements OnInit {
-  public model: any;
+  public model: string;
   private clickedItem: string;
   private foundForums: string[];
 
@@ -31,8 +32,10 @@ export class ForumSearchComponent implements OnInit {
       .switchMap(term => term.length < 2 ? []
         : this.forumService.forumSearch(term))
 
-  selectedItem(event): void {
+  selectedItem(event: NgbTypeaheadSelectItemEvent, input): void {
+    event.preventDefault();
     this.router.navigateByUrl('/f/' + event.item);
+    this.model = '';
   }
 
 }
