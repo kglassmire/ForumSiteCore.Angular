@@ -1,11 +1,7 @@
-<div class="input-group mb-2 mr-sm-2">
+<div class="input-group">
   <div class="input-group-prepend">
-    <div class="input-group-text">
-      /f/
-    </div>
-  </div>  
+    <span class="input-group-text" id="forum-search-addon">/f/</span>      
+  </div>
   <input id="typeahead-basic" placeholder="Find a forum" type="text" class="form-control" aria-label="Forum Search" (selectItem)="selectedItem($event)"  [(ngModel)]="model" [ngbTypeahead]="search"/>
 </div>
-
-
   

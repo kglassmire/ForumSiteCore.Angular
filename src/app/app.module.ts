@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { ForumService, API_BASE_URL } from './api.service';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ForumService, API_BASE_URL, AuthService } from './api.service';
 import { MarkdownService } from './markdown.service';
 import { environment } from '../environments/environment.prod';
 import { AppComponent } from './app.component';
@@ -14,6 +14,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ForumSearchComponent } from './forum-search/forum-search.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { LoginComponent } from './login/login.component';
+import { CustomInterceptor } from './credential-http-interceptor';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,13 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     NgbModule.forRoot()
   ],
-  providers: [ForumService, {provide: API_BASE_URL, useValue: environment.apiBaseUrl}, MarkdownService],
+  providers: [
+    ForumService,
+    AuthService,
+    {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
+    MarkdownService,
+    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

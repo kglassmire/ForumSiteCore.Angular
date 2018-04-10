@@ -1,3 +1,10 @@
-<p>
-  login works!
-</p>
+<!-- <form class="form-inline"> -->
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">u/</span>
+    </div>
+    <input type="text" #userName class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    <input type="password" #password class="form-control" placeholder="Password" aria-label="Password">
+    <button class="btn btn-success" (click)="login(userName.value, password.value);">login</button>
+  </div>
+<!-- </form> -->
