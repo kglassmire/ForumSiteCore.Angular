@@ -10,16 +10,15 @@ export class AuthenticationService {
     if (localStorage.getItem('loggedIn') === null) {
       return false;
     }
-    let loggedInStatus: String = 'false';
     if (localStorage.getItem('loggedIn') != null) {
-      loggedInStatus = localStorage.getItem('loggedIn');
-      if (loggedInStatus === 'true') {
+      if (localStorage.getItem('loggedIn') === 'true') {
         return true;
       } else {
         return false;
       }
     }
   }
+  
   login(loginDto: LoginDto) {
     this.authService.login(loginDto, '/')
       .map((res: FileResponse) => {
