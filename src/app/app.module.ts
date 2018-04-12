@@ -15,6 +15,7 @@ import { ForumSearchComponent } from './forum-search/forum-search.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { LoginComponent } from './login/login.component';
 import { CustomInterceptor } from './credential-http-interceptor';
+import { AuthenticationService } from './authentication.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CustomInterceptor } from './credential-http-interceptor';
     AuthService,
     {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
     MarkdownService,
-    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true},
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })

@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     login(model: LoginDto | null, returnUrl: string | null | undefined): Observable<FileResponse | null> {
-        let url_ = this.baseUrl + "/api/auth?";
+        let url_ = this.baseUrl + "/api/auth/login?";
         if (returnUrl !== undefined)
             url_ += "returnUrl=" + encodeURIComponent("" + returnUrl) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -64,6 +64,53 @@ export class AuthService {
     }
 
     protected processLogin(response: HttpResponseBase): Observable<FileResponse | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return Observable.of({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<FileResponse | null>(<any>null);
+    }
+
+    logout(): Observable<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/auth/logout";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processLogout(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLogout(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse | null>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<FileResponse | null>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processLogout(response: HttpResponseBase): Observable<FileResponse | null> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, LoginDto } from '../api.service';
+import { AuthenticationService } from '../authentication.service';
+import { LoginDto } from '../api.service';
 
 @Component({
   selector: 'app-login',
@@ -8,14 +9,25 @@ import { AuthService, LoginDto } from '../api.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthenticationService) {
   }
 
   ngOnInit() {
   }
 
-  login(username: string, password: string) {
-    const loginDto: LoginDto = <LoginDto> { userName: username, password: password, rememberMe: true, email: 'dronez@fakesite.com' };
-    this.authService.login(loginDto, '/').subscribe(response => console.log(response), err => console.log(err));
+  isAuthenticated() {
+    console.log('authenticated: ' + this.authService.isAuthenticated());
+    return this.authService.isAuthenticated();
   }
+
+  login(userName: String, password: String) {
+    const loginDto: LoginDto = <LoginDto> { userName: userName, password: password, rememberMe: true, email: 'dronez@fakesite.com' };
+    this.authService.login(loginDto);
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+
 }
