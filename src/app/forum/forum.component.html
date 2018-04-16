@@ -1,26 +1,14 @@
 <div *ngIf="forumPostListing$ | async as forumPostListing; else spinnerBlock">
-  <div class="grid-container">
-    <div class="header">
+  <div class="forum-grid-container">
+    <div class="forum-header">
       <h2>
         f/{{forumPostListing.forum.name}}
       </h2>
     </div>
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-        </div>
-      </div>
-      <p>
-        {{forumPostListing.forum.id}}
-      </p>
-      <p>
-        {{forumPostListing.forum.created}}
-      </p>
-      <p>
-        <strong>{{forumPostListing.forum.description}}</strong>
-      </p>
+    <div class="forum-content">
+      <app-post-card *ngFor="let post of forumPostListing.posts; let i = index" [post]="post" [forum]="forumPostListing.forum" [postNumber]="i+1"></app-post-card>          
     </div>
-    <div [innerHtml]=convertMarkdown(forumPostListing.forum.description) class="menu"></div>
+    <div [innerHtml]=convertMarkdown(forumPostListing.forum.description) class="forum-menu"></div>
   </div>
   <ng-template #spinnerBlock>
     <div>

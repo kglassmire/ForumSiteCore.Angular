@@ -12,10 +12,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './footer/footer.component';
 import { ForumSearchComponent } from './forum-search/forum-search.component';
-import { PostListComponent } from './post-list/post-list.component';
 import { LoginComponent } from './login/login.component';
 import { CustomInterceptor } from './credential-http-interceptor';
 import { AuthenticationService } from './authentication.service';
+import { MomentModule } from 'ngx-moment';
+import { PostCardComponent } from './post-card/post-card.component';
 
 @NgModule({
   declarations: [
@@ -24,15 +25,16 @@ import { AuthenticationService } from './authentication.service';
     NavbarComponent,
     FooterComponent,
     ForumSearchComponent,
-    PostListComponent,
-    LoginComponent
+    LoginComponent,
+    PostCardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    MomentModule
   ],
   providers: [
     ForumService,

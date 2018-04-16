@@ -1,4 +1,4 @@
-.grid-container {
+.forum-grid-container {
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 3fr 1fr;
@@ -6,14 +6,36 @@
     grid-template-areas: "header menu" "content menu";
 }
 
-.header {
+@media only screen and (max-width: 992px)  {
+    .forum-grid-container {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: 1fr;
+        grid-template-areas: "header" "content"
+    }
+
+    .forum-header {
+        grid-area: header;
+    }
+    
+    .forum-content {
+        grid-area: content;
+    }
+
+    .forum-menu {
+        display: none;
+        /* grid-area: menu; */
+    }
+}
+
+.forum-header {
     grid-area: header;
 }
 
-.menu {
+.forum-menu {
     grid-area: menu;    
 }
 
-.content {
+.forum-content {
     grid-area: content;
 }
