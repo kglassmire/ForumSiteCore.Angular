@@ -17,7 +17,6 @@ import { CustomInterceptor } from './credential-http-interceptor';
 import { AuthenticationService } from './authentication.service';
 import { MomentModule } from 'ngx-moment';
 import { PostCardComponent } from './post-card/post-card.component';
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -6,25 +6,32 @@
     grid-template-areas: "header menu" "content menu";
 }
 
-@media only screen and (max-width: 992px)  {
+/* @media only screen and (max-width: 992px)  {
     .forum-grid-container {
         display: grid;
         grid-gap: 10px;
         grid-template-columns: 1fr;
-        grid-template-areas: "header" "content"
+        grid-template-areas: "header" "content" "menu";
+    }
+} */
+
+@media only screen and (max-width: 992px) {
+    .forum-grid-container {
+        grid-template-columns: 1fr;
+        grid-template-areas: "header" "content";
     }
 
     .forum-header {
         grid-area: header;
     }
     
+    .forum-menu {
+        grid-area: menu;   
+        display: none; 
+    }
+    
     .forum-content {
         grid-area: content;
-    }
-
-    .forum-menu {
-        display: none;
-        /* grid-area: menu; */
     }
 }
 

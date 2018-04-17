@@ -8,7 +8,7 @@
     <div class="forum-content">
       <app-post-card *ngFor="let post of forumPostListing.posts; let i = index" [post]="post" [forum]="forumPostListing.forum" [postNumber]="i+1"></app-post-card>          
     </div>
-    <div [innerHtml]=convertMarkdown(forumPostListing.forum.description) class="forum-menu"></div>
+    <div class="forum-menu" [innerHtml]=convertMarkdown(forumPostListing.forum.description)></div>
   </div>
   <ng-template #spinnerBlock>
     <div>
