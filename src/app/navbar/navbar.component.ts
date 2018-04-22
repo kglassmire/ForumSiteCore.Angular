@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../authentication.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -8,7 +9,11 @@ export class NavbarComponent implements OnInit {
 
   isCollapsed: Boolean = true;
 
-  constructor() { }
+  showLogin() {
+    return !this.authenticationService.isAuthenticated();
+  }
+
+  constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }

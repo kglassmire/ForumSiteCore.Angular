@@ -18,7 +18,7 @@ export class AuthenticationService {
       }
     }
   }
-  
+
   login(loginDto: LoginDto) {
     this.authService.login(loginDto, '/')
       .map((res: FileResponse) => {

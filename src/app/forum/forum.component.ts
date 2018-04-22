@@ -31,7 +31,7 @@ export class ForumComponent implements OnInit {
       .switchMap((params: ParamMap) =>
         this.forumService.hot(params.get('name')));
 
-    this.forumPostListing$.subscribe(v => console.log('got new forumDto: ', v), error => console.log(error));
+    // this.forumPostListing$.subscribe(v => console.log('got new forumDto: ', v), error => console.log(error));
   }
 
 }

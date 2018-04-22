@@ -1,15 +1,20 @@
-<form class="form-group">
-  <div *ngIf="!isAuthenticated(); else logoutBlock" class="input-group">
-    <div class="form-group">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">u/</span>
+<div class="row justify-content-center align-items-center">
+  <div class="col col-sm-10 col-md-8 col-lg-5 col-xl-4">
+    <form>
+      <div *ngIf="!isAuthenticated(); else logoutBlock">
+        <div class="form-group">
+          <label for="userName">Username</label>
+          <input type="text" #userName class="form-control" placeholder="Username" aria-label="Username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" #password class="form-control" placeholder="Password" aria-label="Password">
+        </div>
+        <button class="btn btn-primary btn-lg btn-block"  (click)="login(userName.value, password.value);">Login</button>
       </div>
-      <input type="text" #userName class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-      <input type="password" #password class="form-control" placeholder="Password" aria-label="Password">
-    </div>
-    <button class="btn btn-success" (click)="login(userName.value, password.value);">login</button>    
+      <ng-template #logoutBlock>
+        <button class="btn btn-info btn-lg btn-block" (click)="logout();">Logout</button>
+      </ng-template>
+    </form>
   </div>
-  <ng-template #logoutBlock>
-    <button class="btn btn-info" (click)="logout();">logout</button>
-  </ng-template>
-</form>
+</div>

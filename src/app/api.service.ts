@@ -796,6 +796,7 @@ export class PostDto {
     commentsCount: number;
     savesCount: number;
     userName?: string | undefined;
+    userVote: VotedType;
     forumName?: string | undefined;
 
     init(data?: any) {
@@ -814,6 +815,7 @@ export class PostDto {
             this.commentsCount = data["commentsCount"];
             this.savesCount = data["savesCount"];
             this.userName = data["userName"];
+            this.userVote = data["userVote"];
             this.forumName = data["forumName"];
         }
     }
@@ -841,9 +843,16 @@ export class PostDto {
         data["commentsCount"] = this.commentsCount;
         data["savesCount"] = this.savesCount;
         data["userName"] = this.userName;
+        data["userVote"] = this.userVote;
         data["forumName"] = this.forumName;
         return data; 
     }
+}
+
+export enum VotedType {
+    None = 0, 
+    Up = 1, 
+    Down = 2, 
 }
 
 export interface FileResponse {
