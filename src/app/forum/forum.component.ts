@@ -28,10 +28,10 @@ export class ForumComponent implements OnInit {
 
   ngOnInit() {
     this.forumPostListing$ = this.route.paramMap
-      .switchMap((params: ParamMap) =>
-        this.forumService.hot(params.get('name')));
-
-    // this.forumPostListing$.subscribe(v => console.log('got new forumDto: ', v), error => console.log(error));
+      .switchMap((params: ParamMap) => {
+        console.log(params);
+        return this.forumService.hot(params.get('name'));
+      });
   }
 
 }

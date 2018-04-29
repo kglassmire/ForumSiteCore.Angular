@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ForumService, API_BASE_URL, AuthService } from './api.service';
+import { ForumService, API_BASE_URL, AuthService, PostService } from './api.service';
 import { MarkdownService } from './markdown.service';
 import { environment } from '../environments/environment.prod';
 import { AppComponent } from './app.component';
@@ -42,7 +42,8 @@ import { PostCardComponent } from './post-card/post-card.component';
     {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
     MarkdownService,
     {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true},
-    AuthenticationService
+    AuthenticationService,
+    PostService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,8 +1,8 @@
 <div class="post-card post-card-grid-container">
   <div class="post-card-vote-panel">
-      <i class="fas fa-arrow-up fa-lg"></i>
-      <h4 class="vote-count">{{post.upvotes-post.downvotes}}</h4>
-      <i class="fas fa-arrow-down fa-lg"></i>
+      <i (click)="upvote($event)" class="fas fa-arrow-up fa-lg upvoted" [class.upvoted]="post.userVote === 1"></i>
+      <h4 class="vote-count upvoted downvoted" [class.upvoted]="post.userVote === 1" [class.downvoted]="post.userVote === 2" title="{{totalScoreTitle}}">{{post.upvotes - post.downvotes}}</h4>      
+      <i (click)="downvote($event)" class="fas fa-arrow-down fa-lg downvoted" [class.downvoted]="post.userVote === 2"></i>
   </div>
   <div class="post-card-header">
     <h4>{{post.name}}</h4>
