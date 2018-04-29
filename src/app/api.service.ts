@@ -418,7 +418,61 @@ export class PostService {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:5000";
     }
 
-    vote(id: number, value: boolean): Observable<FileResponse | null> {
+    save(id: number, value: boolean): Observable<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/post/save/{id}?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (value === undefined || value === null)
+            throw new Error("The parameter 'value' must be defined and cannot be null.");
+        else
+            url_ += "value=" + encodeURIComponent("" + value) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processSave(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSave(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse | null>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<FileResponse | null>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processSave(response: HttpResponseBase): Observable<FileResponse | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return Observable.of({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<FileResponse | null>(<any>null);
+    }
+
+    vote(id: number, value: VotedType): Observable<FileResponse | null> {
         let url_ = this.baseUrl + "/api/post/vote/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");

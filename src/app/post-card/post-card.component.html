@@ -12,9 +12,9 @@
   </div>
   <div class="post-card-footer">
     <h6 class="comment-count">{{post.commentsCount}} comments</h6>
-    <h6 class="forum-name">{{post.forumName}}</h6>
+    <h6 class="forum-name" routerLink="/f/{{post.forumName}}">{{post.forumName}}</h6>
     <div class="spacer"></div>
-    <h6 title="save" (click)="save()" class="save-action">
+    <h6 class="save-action" title="save" (click)="save()">
       <i [ngClass]="post.userSaved === false ? 'far fa-bookmark': 'fas fa-bookmark'"></i> {{post.userSaved ? "saved" : "save"}}
     </h6>
     <h6 class="created-by"><span title="{{post.created}}">{{post.created | amTimeAgo:false}}</span> by {{post.userName}}</h6>

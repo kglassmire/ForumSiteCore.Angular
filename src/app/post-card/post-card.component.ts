@@ -15,10 +15,11 @@ export class PostCardComponent implements OnInit {
   @Input()
   postNumber: number;
 
+  constructor(private postService: PostService) { }
+
   get totalScoreTitle() {
     return `${this.post.upvotes - this.post.downvotes} (${this.post.upvotes}|${this.post.downvotes})`;
   }
-  constructor(private postService: PostService) { }
 
   upvote() {
     this.vote(VotedType.Up);
@@ -31,9 +32,11 @@ export class PostCardComponent implements OnInit {
   save() {
     if (this.post.userSaved === true) {
       console.log(`user unsaved post ${this.post.id}`);
+      this.postService.save(this.post.id, false).subscribe(success => console.log(success), error => console.log(error));
       this.post.userSaved = false;
     } else {
       console.log(`user saved post ${this.post.id}`);
+      this.postService.save(this.post.id, true).subscribe(success => console.log(success), error => console.log(error));
       this.post.userSaved = true;
     }
   }
@@ -43,25 +46,24 @@ export class PostCardComponent implements OnInit {
 
   private vote(voteType: VotedType) {
     if (this.post.userVote === voteType) {
-      console.log(`user performed ${VotedType[voteType]}, but post ${this.post.id} already had vote type`);
+      console.log(`user voted ${VotedType[voteType]}, but post ${this.post.id} already had that vote type`);
       return;
     }
     let hasDownvote = false;
     let hasUpvote = false;
 
+    console.log(`post ${this.post.id} had a vote of ${VotedType[this.post.userVote]} previously.`);
     if (this.post.userVote === VotedType.Down) {
       hasDownvote = true;
     }
     if (this.post.userVote === VotedType.Up) {
-      console.log(`post ${this.post.id} had an upvote previously.`);
       hasUpvote = true;
     }
 
-    console.log(`user upvoted post ${this.post.id}`);
-    this.postService.vote(this.post.id, true)
-      .subscribe(success => console.log(success), error => console.log(error));
+    console.log(`user voted ${VotedType[voteType]} post ${this.post.id}`);
+    this.postService.vote(this.post.id, voteType);
 
-    if (voteType = VotedType.Up) {
+    if (voteType === VotedType.Up) {
       if (hasDownvote) {
         this.post.downvotes--;
       }
@@ -69,7 +71,7 @@ export class PostCardComponent implements OnInit {
       this.post.userVote = VotedType.Up;
     }
 
-    if (voteType = VotedType.Down) {
+    if (voteType === VotedType.Down) {
       if (hasUpvote) {
         this.post.upvotes--;
       }

@@ -64,6 +64,7 @@
 
 .post-card-footer > .forum-name {
     margin-left: .5rem;
+    cursor: pointer;
 }
 
 .post-card-footer > .save-action {
