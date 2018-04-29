@@ -20,46 +20,61 @@ export class PostCardComponent implements OnInit {
   }
   constructor(private postService: PostService) { }
 
+  upvote() {
+    this.vote(VotedType.Up);
+  }
+
+  downvote() {
+    this.vote(VotedType.Down);
+  }
+
+  save() {
+    if (this.post.userSaved === true) {
+      console.log(`user unsaved post ${this.post.id}`);
+      this.post.userSaved = false;
+    } else {
+      console.log(`user saved post ${this.post.id}`);
+      this.post.userSaved = true;
+    }
+  }
+
   ngOnInit() {
   }
 
-  upvote(myEvent) {
-    let hasDownvote = false;
-    if (this.post.userVote === VotedType.Up) {
-      console.log(`${myEvent}: upvoted post, but post ${this.post.id} is already upvoted`);
+  private vote(voteType: VotedType) {
+    if (this.post.userVote === voteType) {
+      console.log(`user performed ${VotedType[voteType]}, but post ${this.post.id} already had vote type`);
       return;
     }
+    let hasDownvote = false;
+    let hasUpvote = false;
+
     if (this.post.userVote === VotedType.Down) {
       hasDownvote = true;
-    }
-    console.log(`${myEvent}: upvoted post ${this.post.id}`);
-    this.postService.vote(this.post.id, true)
-      .subscribe(success => console.log(success), error => console.log(error));
-
-    if (hasDownvote) {
-      this.post.downvotes--;
-    }
-    this.post.upvotes++;
-    this.post.userVote = VotedType.Up;
-  }
-
-  downvote(myEvent) {
-    let hasUpvote = false;
-    if (this.post.userVote === VotedType.Down) {
-      console.log(`${myEvent}: downvoted post, but post ${this.post.id} is already downvoted`);
-      return;
     }
     if (this.post.userVote === VotedType.Up) {
       console.log(`post ${this.post.id} had an upvote previously.`);
       hasUpvote = true;
     }
-    console.log(`${myEvent}: downvoted post ${this.post.id}`);
-    this.postService.vote(this.post.id, false)
+
+    console.log(`user upvoted post ${this.post.id}`);
+    this.postService.vote(this.post.id, true)
       .subscribe(success => console.log(success), error => console.log(error));
-    if (hasUpvote) {
-      this.post.upvotes--;
+
+    if (voteType = VotedType.Up) {
+      if (hasDownvote) {
+        this.post.downvotes--;
+      }
+      this.post.upvotes++;
+      this.post.userVote = VotedType.Up;
     }
-    this.post.downvotes++;
-    this.post.userVote = VotedType.Down;
+
+    if (voteType = VotedType.Down) {
+      if (hasUpvote) {
+        this.post.upvotes--;
+      }
+      this.post.downvotes++;
+      this.post.userVote = VotedType.Down;
+    }
   }
 }

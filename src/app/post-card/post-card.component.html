@@ -1,8 +1,8 @@
 <div class="post-card post-card-grid-container">
   <div class="post-card-vote-panel">
-      <i (click)="upvote($event)" class="fas fa-arrow-up fa-lg upvoted" [class.upvoted]="post.userVote === 1"></i>
-      <h4 class="vote-count upvoted downvoted" [class.upvoted]="post.userVote === 1" [class.downvoted]="post.userVote === 2" title="{{totalScoreTitle}}">{{post.upvotes - post.downvotes}}</h4>      
-      <i (click)="downvote($event)" class="fas fa-arrow-down fa-lg downvoted" [class.downvoted]="post.userVote === 2"></i>
+      <i title="upvote" (click)="upvote()" class="fas fa-arrow-up fa-lg upvote" [class.upvoted]="post.userVote === 1"></i>
+      <h4 class="vote-count" [class.upvoted]="post.userVote === 1" [class.downvoted]="post.userVote === 2" title="{{totalScoreTitle}}">{{post.upvotes - post.downvotes}}</h4>      
+      <i title="downvote" (click)="downvote()" class="fas fa-arrow-down fa-lg downvote" [class.downvoted]="post.userVote === 2"></i>
   </div>
   <div class="post-card-header">
     <h4>{{post.name}}</h4>
@@ -14,6 +14,9 @@
     <h6 class="comment-count">{{post.commentsCount}} comments</h6>
     <h6 class="forum-name">{{post.forumName}}</h6>
     <div class="spacer"></div>
+    <h6 title="save" (click)="save()" class="save-action">
+      <i [ngClass]="post.userSaved === false ? 'far fa-bookmark': 'fas fa-bookmark'"></i> {{post.userSaved ? "saved" : "save"}}
+    </h6>
     <h6 class="created-by"><span title="{{post.created}}">{{post.created | amTimeAgo:false}}</span> by {{post.userName}}</h6>
   </div>
 </div>
