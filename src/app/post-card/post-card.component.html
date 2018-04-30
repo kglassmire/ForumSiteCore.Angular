@@ -5,18 +5,34 @@
       <i title="downvote" (click)="downvote()" class="fas fa-arrow-down fa-lg downvote" [class.downvoted]="post.userVote === 2"></i>
   </div>
   <div class="post-card-header">
-    <h4>{{post.name}}</h4>
+    <h4>
+      {{post.name}}
+      <span *ngIf="post.hasDescription" class="btn-group-toggle" title="show description" data-toggle="buttons">
+          <label class="btn btn-light btn-sm active" ngbButtonLabel>
+            <input (click)="togglePostDescription()" type="checkbox" ngbButton [(ngModel)]="showPostDescription"><i class="fas fa-expand"></i>
+          </label>
+        </span>
+    </h4>
+
   </div>
-  <div class="post-card-body">
-    <p class="card-text">{{post.description}}</p>        
+  <div *ngIf="showPostDescription" class="post-card-body">
+    <div class="card-text">
+      <p [innerHtml]=convertMarkdown(forum.description)></p>
+    </div>
   </div>
   <div class="post-card-footer">
-    <h6 class="comment-count">{{post.commentsCount}} comments</h6>
-    <h6 class="forum-name" routerLink="/f/{{post.forumName}}">{{post.forumName}}</h6>
-    <div class="spacer"></div>
+    <h6 class="comments-action">
+      <i class="far fa-comments"></i> {{post.commentsCount}} comments
+    </h6>
+    <h6 *ngIf="showForumName" class="forum-name" routerLink="/f/{{post.forumName}}">
+      <i class="fas fa-map-marker-alt"></i> {{post.forumName}}
+    </h6>
     <h6 class="save-action" title="save" (click)="save()">
       <i [ngClass]="post.userSaved === false ? 'far fa-bookmark': 'fas fa-bookmark'"></i> {{post.userSaved ? "saved" : "save"}}
     </h6>
-    <h6 class="created-by"><span title="{{post.created}}">{{post.created | amTimeAgo:false}}</span> by {{post.userName}}</h6>
+    <div class="spacer"></div>
+    <h6 class="created-by"><span title="{{post.created}}">
+      <i class="far fa-clock"></i> {{post.created | amTimeAgo:false}}</span> by {{post.userName}}
+    </h6>
   </div>
 </div>

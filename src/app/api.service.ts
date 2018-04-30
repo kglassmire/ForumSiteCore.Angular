@@ -861,7 +861,7 @@ export class ForumPostListing {
 }
 
 export class ForumDto {
-    id?: string | undefined;
+    id: number;
     created: Date;
     updated: Date;
     inactive: boolean;
@@ -905,6 +905,7 @@ export class PostDto {
     id: number;
     name?: string | undefined;
     description?: string | undefined;
+    hasDescription: boolean;
     url?: string | undefined;
     hotScore: number;
     controversyScore: number;
@@ -926,6 +927,7 @@ export class PostDto {
             this.id = data["id"];
             this.name = data["name"];
             this.description = data["description"];
+            this.hasDescription = data["hasDescription"];
             this.url = data["url"];
             this.hotScore = data["hotScore"];
             this.controversyScore = data["controversyScore"];
@@ -956,6 +958,7 @@ export class PostDto {
         data["id"] = this.id;
         data["name"] = this.name;
         data["description"] = this.description;
+        data["hasDescription"] = this.hasDescription;
         data["url"] = this.url;
         data["hotScore"] = this.hotScore;
         data["controversyScore"] = this.controversyScore;

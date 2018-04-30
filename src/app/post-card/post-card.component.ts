@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PostDto, ForumDto, VotedType, PostService } from '../api.service';
+import { MarkdownService } from '../markdown.service';
 
 @Component({
   selector: 'app-post-card',
@@ -15,21 +16,41 @@ export class PostCardComponent implements OnInit {
   @Input()
   postNumber: number;
 
-  constructor(private postService: PostService) { }
+  private _showPostDescription: boolean;
 
-  get totalScoreTitle() {
+  constructor(
+    private postService: PostService,
+    private markdownService: MarkdownService
+  ) { }
+
+  togglePostDescription(): void {
+    this._showPostDescription = !this._showPostDescription;
+  }
+  get showPostDescription(): boolean {
+    return this._showPostDescription;
+  }
+
+  get showForumName(): boolean {
+    return this.forum.name.toLowerCase() === 'all' || this.forum.name.toLowerCase() === 'home';
+  }
+
+  get totalScoreTitle(): string {
     return `${this.post.upvotes - this.post.downvotes} (${this.post.upvotes}|${this.post.downvotes})`;
   }
 
-  upvote() {
+  convertMarkdown(markdown: string) {
+    return this.markdownService.markdownHtml(markdown);
+  }
+
+  upvote(): void {
     this.vote(VotedType.Up);
   }
 
-  downvote() {
+  downvote(): void {
     this.vote(VotedType.Down);
   }
 
-  save() {
+  save(): void {
     if (this.post.userSaved === true) {
       console.log(`user unsaved post ${this.post.id}`);
       this.postService.save(this.post.id, false).subscribe(success => console.log(success), error => console.log(error));
@@ -44,7 +65,7 @@ export class PostCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  private vote(voteType: VotedType) {
+  private vote(voteType: VotedType): void {
     if (this.post.userVote === voteType) {
       console.log(`user voted ${VotedType[voteType]}, but post ${this.post.id} already had that vote type`);
       return;

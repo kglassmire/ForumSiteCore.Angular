@@ -58,7 +58,7 @@
     font-weight: bolder;
 }
 
-.post-card-footer > .comment-count { 
+.post-card-footer > .comments-action { 
     margin-left: 0;   
 }
 
@@ -68,7 +68,7 @@
 }
 
 .post-card-footer > .save-action {
-    margin-right: .5rem;
+    margin-left: .5rem;
     font-weight: bolder;
     cursor: pointer;
 }
