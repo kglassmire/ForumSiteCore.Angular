@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ForumService, ForumPostListing } from '../api.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
+import { switchMap } from 'rxjs/operators';
 import { MarkdownService } from '../markdown.service';
 
 @Component({
@@ -27,11 +27,11 @@ export class ForumComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.forumPostListing$ = this.route.paramMap
-      .switchMap((params: ParamMap) => {
+    this.forumPostListing$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
         console.log(params);
         return this.forumService.hot(params.get('name'));
-      });
+      }));
   }
 
 }

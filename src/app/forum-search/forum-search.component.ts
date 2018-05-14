@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ForumService } from '../api.service';
 import { Router } from '@angular/router';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -26,11 +24,12 @@ export class ForumSearchComponent implements OnInit {
   }
 
   search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .switchMap(term => term.length < 2 ? []
-        : this.forumService.forumSearch(term))
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap(term => term.length < 2 ? []
+        : this.forumService.forumSearch(term)))
+
 
   selectedItem(event: NgbTypeaheadSelectItemEvent, input): void {
     event.preventDefault();
