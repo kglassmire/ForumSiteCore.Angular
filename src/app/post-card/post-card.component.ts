@@ -82,7 +82,7 @@ export class PostCardComponent implements OnInit {
     }
 
     console.log(`user voted ${VotedType[voteType]} post ${this.post.id}`);
-    this.postService.vote(this.post.id, voteType);
+    this.postService.vote(this.post.id, voteType).subscribe(success => console.log(success), error => console.log(error));;
 
     if (voteType === VotedType.Up) {
       if (hasDownvote) {
