@@ -31,7 +31,7 @@ export class ForumSearchComponent implements OnInit {
         : this.forumService.forumSearch(term)))
 
 
-  selectedItem(event: NgbTypeaheadSelectItemEvent, input): void {
+  selectedItem(event: NgbTypeaheadSelectItemEvent): void {
     event.preventDefault();
     this.router.navigateByUrl('/f/' + event.item);
     this.model = '';
