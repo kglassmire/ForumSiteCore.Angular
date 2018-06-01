@@ -1,16 +1,18 @@
+
+{{diagnostic}}
 <div class="row justify-content-center align-items-center">
   <div class="col col-sm-10 col-md-8 col-lg-5 col-xl-4">
-    <form>
+    <form #loginForm="ngForm">
       <div *ngIf="!isAuthenticated(); else logoutBlock">
         <div class="form-group">
           <label for="userName">Username</label>
-          <input type="text" #userName class="form-control" placeholder="Username" aria-label="Username">
-        </div>
+          <input type="text" [(ngModel)]="userName" name="userName" class="form-control" placeholder="Username" required aria-label="Username">
+        </div> 
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" #password class="form-control" placeholder="Password" aria-label="Password">
+          <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" required aria-label="Password">
         </div>
-        <button class="btn btn-primary btn-lg btn-block"  (click)="login(userName.value, password.value);">Login</button>
+        <button [disabled]="!loginForm.form.valid" class="btn btn-primary btn-lg btn-block"  (click)="login(userName.value, password.value);">Login</button>
       </div>
       <ng-template #logoutBlock>
         <button class="btn btn-info btn-lg btn-block" (click)="logout();">Logout</button>

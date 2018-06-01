@@ -1,23 +1,38 @@
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Injectable, OnDestroy, Inject, InjectionToken } from '@angular/core';
+import { map, takeUntil } from 'rxjs/operators';
 import { AuthService, LoginDto, FileResponse } from './api.service';
+import { Subject } from 'rxjs';
+
+export const COOKIE_NAME = new InjectionToken<string>('COOKIE_NAME');
 
 @Injectable()
-export class AuthenticationService {
+export class AuthenticationService implements OnDestroy {
 
-  constructor(private authService: AuthService) { }
+  private ngUnsubscribe: Subject<any> = new Subject();
+
+  constructor(private authService: AuthService, @Inject(COOKIE_NAME) cookieName?: string) { }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  getCookie(name: string): any {
+    const value = '; ' + document.cookie;
+    const parts = value.split('; ' + name + '=');
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    } else {
+      return null;
+    }
+  }
+
 
   isAuthenticated(): boolean {
-    if (localStorage.getItem('loggedIn') === null) {
-      return false;
+    if (this.getCookie('ForumSiteCore') !== null) {
+      return true;
     }
-    if (localStorage.getItem('loggedIn') != null) {
-      if (localStorage.getItem('loggedIn') === 'true') {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    return false;
   }
 
   login(loginDto: LoginDto) {
@@ -28,7 +43,8 @@ export class AuthenticationService {
             localStorage.setItem('loggedIn', 'true');
           }
         }
-      })
+      }),
+      takeUntil(this.ngUnsubscribe)
     ).subscribe(response => console.log(response), err => console.log(err));
   }
 
@@ -40,7 +56,8 @@ export class AuthenticationService {
             localStorage.setItem('loggedIn', 'false');
           }
         }
-      })
+      }),
+      takeUntil(this.ngUnsubscribe)
     ).subscribe(response => console.log(response), err => console.log(err));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { LoginDto } from '../api.service';
 
@@ -12,6 +12,9 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthenticationService) {
   }
 
+  userName: string;
+  password: string;
+
   ngOnInit() {
   }
 
@@ -21,7 +24,11 @@ export class LoginComponent implements OnInit {
   }
 
   login(userName: String, password: String) {
-    const loginDto: LoginDto = <LoginDto> { userName: userName, password: password, rememberMe: true, email: 'dronez@fakesite.com' };
+    const loginDto: LoginDto = <LoginDto> {
+      userName: this.userName,
+      password: this.password,
+      rememberMe: true,
+      email: 'dronez@fakesite.com' };
     this.authService.login(loginDto);
   }
 

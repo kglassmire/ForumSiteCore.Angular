@@ -14,7 +14,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ForumSearchComponent } from './forum-search/forum-search.component';
 import { LoginComponent } from './login/login.component';
 import { CustomInterceptor } from './credential-http-interceptor';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService, COOKIE_NAME } from './authentication.service';
 import { MomentModule } from 'ngx-moment';
 import { PostCardComponent } from './post-card/post-card.component';
 
@@ -39,11 +39,12 @@ import { PostCardComponent } from './post-card/post-card.component';
   providers: [
     ForumService,
     AuthService,
-    {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
     MarkdownService,
-    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true},
     AuthenticationService,
-    PostService
+    PostService,
+    {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
+    {provide: COOKIE_NAME, useValue: environment.cookieName},
+    {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
