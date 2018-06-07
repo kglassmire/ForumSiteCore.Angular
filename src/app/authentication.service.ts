@@ -36,28 +36,24 @@ export class AuthenticationService implements OnDestroy {
   }
 
   login(loginDto: LoginDto) {
-    this.authService.login(loginDto, '/').pipe(
-      map((res: FileResponse) => {
-        if (res) {
-          if (res.status === 200) {
-            localStorage.setItem('loggedIn', 'true');
+    this.authService.login(loginDto, '/')
+      .pipe(
+        map((res: FileResponse) => {
+          if (res) {
+            if (res.status === 200) {
+              loginDto.userName = '';
+              loginDto.password = '';
+            }
           }
-        }
-      }),
-      takeUntil(this.ngUnsubscribe)
-    ).subscribe(response => console.log(response), err => console.log(err));
+        }),
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(response => console.log(response), err => console.log(err));
   }
 
   logout() {
-    this.authService.logout().pipe(
-      map((res: FileResponse) => {
-        if (res) {
-          if (res.status === 200) {
-            localStorage.setItem('loggedIn', 'false');
-          }
-        }
-      }),
-      takeUntil(this.ngUnsubscribe)
-    ).subscribe(response => console.log(response), err => console.log(err));
+    this.authService.logout()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => console.log(response), err => console.log(err));
   }
 }

@@ -1,22 +1,28 @@
-
-{{diagnostic}}
 <div class="row justify-content-center align-items-center">
-  <div class="col col-sm-10 col-md-8 col-lg-5 col-xl-4">
+  <div class="col col-sm-(10 col-md-8 col-lg-5 col-xl-4">
     <form #loginForm="ngForm">
       <div *ngIf="!isAuthenticated(); else logoutBlock">
         <div class="form-group">
           <label for="userName">Username</label>
-          <input type="text" [(ngModel)]="userName" name="userName" class="form-control" placeholder="Username" required aria-label="Username">
+          <input type="text" [(ngModel)]="userName" name="userName" class="form-control" aria-label="Username"
+             placeholder="Username" required #userNameInput="ngModel" />
+            <div *ngIf="userNameInput.errors?.required && userNameInput.dirty" class="alert alert-danger">
+              Name is required
+            </div>  
         </div> 
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" required aria-label="Password">
+          <input type="password" [(ngModel)]="password" name="password" class="form-control" aria-label="Password"
+            placeholder="Password" required #passwordInput="ngModel" />
+            <div *ngIf="passwordInput.errors?.required && passwordInput.dirty" class="alert alert-danger">
+              Password is required
+            </div>
         </div>
-        <button [disabled]="!loginForm.form.valid" class="btn btn-primary btn-lg btn-block"  (click)="login(userName.value, password.value);">Login</button>
+        <button type="submit" [disabled]="!loginForm.form.valid" class="btn btn-primary btn-lg btn-block" (click)="login(); loginForm.reset()">Login</button>
       </div>
-      <ng-template #logoutBlock>
-        <button class="btn btn-info btn-lg btn-block" (click)="logout();">Logout</button>
-      </ng-template>
     </form>
+    <ng-template #logoutBlock> 
+      <button class="btn btn-info btn-lg btn-block" (click)="logout()">Logout</button>
+    </ng-template>
   </div>
 </div>

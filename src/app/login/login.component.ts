@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     return this.authService.isAuthenticated();
   }
 
-  login(userName: String, password: String) {
+  login() {
     const loginDto: LoginDto = <LoginDto> {
       userName: this.userName,
       password: this.password,
