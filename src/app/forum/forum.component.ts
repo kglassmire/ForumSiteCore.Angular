@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ForumService, ForumPostListing } from '../api.service';
+import { ForumService, ForumPostListingVM } from '../api.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { MarkdownService } from '../markdown.service';
@@ -13,7 +13,7 @@ import { MarkdownService } from '../markdown.service';
 
 export class ForumComponent implements OnInit {
 
-  forumPostListing$: Observable<ForumPostListing>;
+  forumPostListing$: Observable<ForumPostListingVM>;
 
   constructor(
     private forumService: ForumService,

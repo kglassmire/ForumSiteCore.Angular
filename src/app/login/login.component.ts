@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
-import { LoginDto } from '../api.service';
+import { LoginVM } from '../api.service';
 
 @Component({
   selector: 'app-login',
@@ -24,11 +24,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    const loginDto: LoginDto = <LoginDto> {
+    const loginDto: LoginVM = <LoginVM> {
       userName: this.userName,
       password: this.password,
-      rememberMe: true,
-      email: 'dronez@fakesite.com' };
+      rememberMe: true
+    };
     this.authService.login(loginDto);
   }
 

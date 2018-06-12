@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, Inject, InjectionToken } from '@angular/core';
 import { map, takeUntil } from 'rxjs/operators';
-import { AuthService, LoginDto, FileResponse } from './api.service';
+import { AuthService, LoginVM, FileResponse } from './api.service';
 import { Subject } from 'rxjs';
 
 export const COOKIE_NAME = new InjectionToken<string>('COOKIE_NAME');
@@ -35,7 +35,7 @@ export class AuthenticationService implements OnDestroy {
     return false;
   }
 
-  login(loginDto: LoginDto) {
+  login(loginDto: LoginVM) {
     this.authService.login(loginDto, '/')
       .pipe(
         map((res: FileResponse) => {

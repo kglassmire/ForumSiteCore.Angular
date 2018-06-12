@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
-import { LoginDto } from '../api.service';
+import { LoginVM } from '../api.service';
 
 @Component({
   selector: 'app-login-reactive',
@@ -13,10 +13,10 @@ export class LoginReactiveComponent implements OnInit {
   constructor(private authenticationServce: AuthenticationService) { }
 
   ngOnInit() {
-    this.createForm();
+    this.initializeForm();
   }
 
-  private createForm() {
+  private initializeForm() {
     this.loginForm = new FormGroup({
       userName: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
@@ -29,11 +29,10 @@ export class LoginReactiveComponent implements OnInit {
   }
 
   login() {
-    const loginDto: LoginDto = <LoginDto> {
+    const loginDto: LoginVM = <LoginVM> {
       userName: this.loginForm.controls['userName'].value,
       password: this.loginForm.controls['password'].value,
-      rememberMe: true,
-      email: 'dronez@fakesite.com' };
+      rememberMe: true };
     this.authenticationServce.login(loginDto);
     this.loginForm.reset();
   }
