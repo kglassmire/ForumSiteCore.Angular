@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../authentication.service';
+import { AuthService, SwaggerException } from '../api.service';
 import { LoginVM } from '../api.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-login-reactive',
@@ -10,7 +11,8 @@ import { LoginVM } from '../api.service';
 })
 export class LoginReactiveComponent implements OnInit {
   loginForm: FormGroup;
-  constructor(private authenticationServce: AuthenticationService) { }
+  loginFailureMessage: string;
+  constructor(private authService: AuthService, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -24,8 +26,7 @@ export class LoginReactiveComponent implements OnInit {
   }
 
   isAuthenticated() {
-    console.log('authenticated: ' + this.authenticationServce.isAuthenticated());
-    return this.authenticationServce.isAuthenticated();
+    return this.authenticationService.isAuthenticated();
   }
 
   login() {
@@ -33,12 +34,38 @@ export class LoginReactiveComponent implements OnInit {
       userName: this.loginForm.controls['userName'].value,
       password: this.loginForm.controls['password'].value,
       rememberMe: true };
-    this.authenticationServce.login(loginDto);
-    this.loginForm.reset();
+
+    this.authService.login(loginDto, '/')
+      .subscribe((next) => {
+        console.log(next);
+        this.loginFailureMessage = '';
+      }, (err) => {
+        if (SwaggerException.isSwaggerException(err)) {
+          const ex: SwaggerException = err as SwaggerException;
+          if (ex.status === 401) {
+            console.log('User not authorized!');
+            this.loginFailureMessage = 'Login failed. Please try again.';
+          }
+          if (ex.status === 403) {
+            console.log('You have been locked out. Please try again later.');
+            this.loginFailureMessage = 'Account locked out.';
+          }
+        }
+      }, () => {
+        console.log('Login complete.');
+        this.loginForm.reset();
+      });
   }
 
   logout() {
-    this.authenticationServce.logout();
+    this.authService.logout()
+      .subscribe(response => {
+        console.log(response);
+      }, err => {
+        console.log(err);
+      }, () => {
+        console.log('Logout complete.');
+      });
   }
 
 }

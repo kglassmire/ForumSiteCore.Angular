@@ -1,6 +1,7 @@
 <div class="row justify-content-center align-items-center">
     <div class="col col-sm-(10 col-md-8 col-lg-5 col-xl-4">
         <div *ngIf="!isAuthenticated(); else logoutBlock">
+            <div>{{loginFailureMessage}}</div>
             <form [formGroup]="loginForm" (ngSubmit)="login()">
                 <div class="form-group">
                     <label for="userName">UserName</label>
