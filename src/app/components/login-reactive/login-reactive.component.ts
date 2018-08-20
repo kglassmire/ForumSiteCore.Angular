@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService, SwaggerException } from '../api.service';
-import { LoginVM } from '../api.service';
-import { AuthenticationService } from '../authentication.service';
+import { LoginVM, AuthService, SwaggerException } from '../../services/api.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-login-reactive',

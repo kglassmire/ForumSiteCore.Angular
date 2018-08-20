@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ForumService, ForumPostListingVM } from '../api.service';
+import { ForumService, ForumPostListingVM } from '../../services/api.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { MarkdownService } from '../markdown.service';
+import { MarkdownService } from '../../services/markdown.service';
 
 @Component({
   selector: 'app-forum',

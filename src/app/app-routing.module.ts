@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ForumComponent } from './forum/forum.component';
-import { LoginReactiveComponent } from './login-reactive/login-reactive.component';
-import { CreatePostComponent } from './create-post/create-post.component';
+import { ForumComponent } from './components/forum/forum.component';
+import { LoginReactiveComponent } from './components/login-reactive/login-reactive.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/f/home', pathMatch: 'full' },

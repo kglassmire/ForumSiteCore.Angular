@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PostDto, ForumDto, VotedType, PostService } from '../api.service';
-import { MarkdownService } from '../markdown.service';
+import { PostDto, ForumDto, VotedType, PostService } from '../../services/api.service';
+import { MarkdownService } from '../../services/markdown.service';
 
 @Component({
   selector: 'app-post-card',
