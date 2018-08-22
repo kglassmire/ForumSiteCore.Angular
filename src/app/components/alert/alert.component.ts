@@ -24,23 +24,20 @@ export class AlertComponent implements OnInit {
   }
 
   removeAlert(alert: Alert) {
-    this.alerts = this.alerts.splice(this.alerts.indexOf(alert), 1);
+    this.alerts.splice(this.alerts.indexOf(alert), 1);
   }
 
-  cssClass(alert: Alert) {
-    if (!alert) {
-      return;
+  getTypeName(alert: Alert) {
+    switch (alert.type) {
+      case AlertType.Error:
+        return 'danger';
+      case AlertType.Warning:
+        return 'warning';
+      case AlertType.Info:
+        return 'info';
+      case AlertType.Success:
+        return 'success';
     }
 
-    switch (alert.type) {
-      case AlertType.Success:
-        return 'alert alert-success';
-      case AlertType.Error:
-        return 'alert alert-danger';
-      case AlertType.Info:
-        return 'alert alert-info';
-      case AlertType.Warning:
-        return 'alert alert-warning';
-    }
   }
 }
