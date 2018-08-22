@@ -7,6 +7,7 @@ import { CustomInterceptor } from './credential-http-interceptor';
 import { environment } from '../environments/environment';
 import { ForumService, AuthService, PostService, API_BASE_URL } from './services/api.service';
 import { AuthenticationService, COOKIE_NAME } from './services/authentication.service';
+import { AlertService } from './services/alert.service';
 import { MarkdownService } from './services/markdown.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +20,7 @@ import { LoginReactiveComponent } from './components/login-reactive/login-reacti
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'ngx-moment';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { MomentModule } from 'ngx-moment';
     ForumSearchComponent,
     PostCardComponent,
     LoginReactiveComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { MomentModule } from 'ngx-moment';
     MarkdownService,
     AuthenticationService,
     PostService,
+    AlertService,
     {provide: API_BASE_URL, useValue: environment.apiBaseUrl},
     {provide: COOKIE_NAME, useValue: environment.cookieName},
     {provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true}

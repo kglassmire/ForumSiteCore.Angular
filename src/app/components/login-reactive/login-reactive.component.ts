@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginVM, AuthService, SwaggerException } from '../../services/api.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-login-reactive',
@@ -11,7 +12,10 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class LoginReactiveComponent implements OnInit {
   loginForm: FormGroup;
   loginFailureMessage: string;
-  constructor(private authService: AuthService, private authenticationService: AuthenticationService) { }
+  constructor(
+    private authService: AuthService,
+    private authenticationService: AuthenticationService,
+    private alertService: AlertService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -42,12 +46,10 @@ export class LoginReactiveComponent implements OnInit {
         if (SwaggerException.isSwaggerException(err)) {
           const ex: SwaggerException = err as SwaggerException;
           if (ex.status === 401) {
-            console.log('User not authorized!');
-            this.loginFailureMessage = 'Login failed. Please try again.';
+            this.alertService.error('Login failed. Please type again.');
           }
           if (ex.status === 403) {
-            console.log('You have been locked out. Please try again later.');
-            this.loginFailureMessage = 'Account locked out.';
+            this.alertService.warn('You have been locked out. Please try again later.');
           }
         }
       }, () => {

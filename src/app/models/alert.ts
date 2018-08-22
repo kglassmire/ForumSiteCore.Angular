@@ -1,9 +1,9 @@
-export class Toast {
-    type: ToastType;
+export class Alert {
+    type: AlertType;
     message: string;
 }
 
-export enum ToastType {
+export enum AlertType {
     Success,
     Info,
     Warning,
