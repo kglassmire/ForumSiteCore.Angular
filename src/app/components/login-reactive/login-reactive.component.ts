@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginVM, AuthService, SwaggerException } from '../../services/api.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { AlertService } from '../../services/alert.service';
+import { AlertType } from '../../models/alert';
 
 @Component({
   selector: 'app-login-reactive',
@@ -10,8 +11,9 @@ import { AlertService } from '../../services/alert.service';
   styleUrls: ['./login-reactive.component.css']
 })
 export class LoginReactiveComponent implements OnInit {
+
   loginForm: FormGroup;
-  loginFailureMessage: string;
+
   constructor(
     private authService: AuthService,
     private authenticationService: AuthenticationService,
@@ -36,25 +38,27 @@ export class LoginReactiveComponent implements OnInit {
     const loginDto: LoginVM = <LoginVM> {
       userName: this.loginForm.controls['userName'].value,
       password: this.loginForm.controls['password'].value,
-      rememberMe: true };
+      rememberMe: true
+    };
 
     this.authService.login(loginDto, '/')
       .subscribe((next) => {
         console.log(next);
-        this.loginFailureMessage = '';
       }, (err) => {
         if (SwaggerException.isSwaggerException(err)) {
           const ex: SwaggerException = err as SwaggerException;
           if (ex.status === 401) {
-            this.alertService.error('Login failed. Please type again.');
+            this.alertService.alert(AlertType.Error, 'Login failed. Please type again.', 'loginFailure');
           }
           if (ex.status === 403) {
-            this.alertService.warn('You have been locked out. Please try again later.');
+            this.alertService.alert(AlertType.Warning, 'You have been locked out. Please try again later.', 'loginLockout');
           }
         }
       }, () => {
         console.log('Login complete.');
-        this.loginForm.reset();
+        if (this.loginForm) {
+          this.loginForm.reset();
+        }
       });
   }
 

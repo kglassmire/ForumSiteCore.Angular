@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { AlertType, Alert } from '../models/alert';
+import { groupBy, mergeMap, reduce } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -25,29 +26,20 @@ export class AlertService {
     });
   }
 
-  getAlert(): Observable<any> {
+  getAlert(): Observable<Alert> {
     return this.subject.asObservable();
   }
 
-  success(message: string, keepAfterRouteChange = false) {
-    this.alert(AlertType.Success, message, keepAfterRouteChange);
-  }
+/*   getAlertNoDuplicates(): Observable<Alert> {
+    return this.subject.asObservable().pipe(
+        groupBy(x => x.key),
+        mergeMap(reduce((acc, curr) => [...acc, ...curr], []))
+      );
+  } */
 
-  error(message: string, keepAfterRouteChange = false) {
-      this.alert(AlertType.Error, message, keepAfterRouteChange);
-  }
-
-  info(message: string, keepAfterRouteChange = false) {
-      this.alert(AlertType.Info, message, keepAfterRouteChange);
-  }
-
-  warn(message: string, keepAfterRouteChange = false) {
-      this.alert(AlertType.Warning, message, keepAfterRouteChange);
-  }
-
-  alert(type: AlertType, message: string, keepAfterRouteChange = false) {
+  alert(type: AlertType, message: string, key: string, keepAfterRouteChange = false) {
       this.keepAfterRouteChange = keepAfterRouteChange;
-      this.subject.next(<Alert>{ type: type, message: message });
+      this.subject.next(<Alert>{ type: type, message: message, key: key, count: 1 });
   }
 
   clear() {

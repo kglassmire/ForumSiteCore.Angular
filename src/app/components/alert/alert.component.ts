@@ -10,16 +10,23 @@ import { Alert, AlertType } from '../../models/alert';
 export class AlertComponent implements OnInit {
 
   alerts: Array<Alert> = new Array<Alert>();
+
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    this.alertService.getAlert().subscribe((alert: Alert) => {
+    this.alertService.getAlert()
+    .subscribe((alert: Alert) => {
       if (!alert) {
         this.alerts = new Array<Alert>();
         return;
       }
 
-      this.alerts.push(alert);
+      const existingElement: Alert | undefined = this.alerts.find(x => x.key === alert.key);
+      if (existingElement !== undefined) {
+        existingElement.count++;
+      } else {
+        this.alerts.push(alert);
+      }
     });
   }
 
@@ -38,6 +45,13 @@ export class AlertComponent implements OnInit {
       case AlertType.Success:
         return 'success';
     }
+  }
 
+  getAlertFormattedMessage(alert: Alert) {
+    if (alert.count === 0 || alert.count === 1) {
+      return alert.message;
+    } else {
+      return `${alert.message} (${alert.count})`;
+    }
   }
 }

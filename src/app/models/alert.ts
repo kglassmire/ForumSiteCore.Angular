@@ -1,10 +1,8 @@
 export class Alert {
     type: AlertType;
+    key: string;
     message: string;
-
-    enumToString(): string {
-        return AlertType[this.type];
-    }
+    count: number;
 }
 
 export enum AlertType {
