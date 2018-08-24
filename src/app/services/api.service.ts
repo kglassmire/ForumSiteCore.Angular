@@ -431,6 +431,214 @@ export class PostService {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:5000";
     }
 
+    best(id: number): Observable<PostCommentListingVM | null> {
+        let url_ = this.baseUrl + "/api/posts/{id}/comments/best";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBest(<any>response_);
+                } catch (e) {
+                    return <Observable<PostCommentListingVM | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PostCommentListingVM | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processBest(response: HttpResponseBase): Observable<PostCommentListingVM | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PostCommentListingVM.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PostCommentListingVM | null>(<any>null);
+    }
+
+    top(id: number): Observable<PostCommentListingVM | null> {
+        let url_ = this.baseUrl + "/api/posts/{id}/comments/top";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTop(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTop(<any>response_);
+                } catch (e) {
+                    return <Observable<PostCommentListingVM | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PostCommentListingVM | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTop(response: HttpResponseBase): Observable<PostCommentListingVM | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PostCommentListingVM.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PostCommentListingVM | null>(<any>null);
+    }
+
+    controversial(id: number): Observable<PostCommentListingVM | null> {
+        let url_ = this.baseUrl + "/api/posts/{id}/comments/controversial";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processControversial(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processControversial(<any>response_);
+                } catch (e) {
+                    return <Observable<PostCommentListingVM | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PostCommentListingVM | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processControversial(response: HttpResponseBase): Observable<PostCommentListingVM | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PostCommentListingVM.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PostCommentListingVM | null>(<any>null);
+    }
+
+    new(id: number): Observable<PostCommentListingVM | null> {
+        let url_ = this.baseUrl + "/api/posts/{id}/comments/new";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processNew(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processNew(<any>response_);
+                } catch (e) {
+                    return <Observable<PostCommentListingVM | null>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PostCommentListingVM | null>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processNew(response: HttpResponseBase): Observable<PostCommentListingVM | null> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PostCommentListingVM.fromJS(resultData200) : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PostCommentListingVM | null>(<any>null);
+    }
+
     create(model: CreatePostVM | null): Observable<FileResponse | null> {
         let url_ = this.baseUrl + "/api/posts";
         url_ = url_.replace(/[?&]$/, "");
@@ -1124,6 +1332,138 @@ export enum VotedType {
     None = 0, 
     Up = 1, 
     Down = 2, 
+}
+
+export class PostCommentListingVM implements IPostCommentListingVM {
+    post?: PostDto | null;
+    comments?: CommentDto[] | null;
+    commentListingType?: string | null;
+
+    constructor(data?: IPostCommentListingVM) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.post = data["post"] ? PostDto.fromJS(data["post"]) : <any>null;
+            if (data["comments"] && data["comments"].constructor === Array) {
+                this.comments = [];
+                for (let item of data["comments"])
+                    this.comments.push(CommentDto.fromJS(item));
+            }
+            this.commentListingType = data["commentListingType"] !== undefined ? data["commentListingType"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): PostCommentListingVM {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostCommentListingVM();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["post"] = this.post ? this.post.toJSON() : <any>null;
+        if (this.comments && this.comments.constructor === Array) {
+            data["comments"] = [];
+            for (let item of this.comments)
+                data["comments"].push(item.toJSON());
+        }
+        data["commentListingType"] = this.commentListingType !== undefined ? this.commentListingType : <any>null;
+        return data; 
+    }
+}
+
+export interface IPostCommentListingVM {
+    post?: PostDto | null;
+    comments?: CommentDto[] | null;
+    commentListingType?: string | null;
+}
+
+export class CommentDto implements ICommentDto {
+    id!: number;
+    parentId?: number | null;
+    postId!: number;
+    description?: string | null;
+    created!: Date;
+    updated!: Date;
+    commentsCount!: number;
+    savesCount!: number;
+    userName?: string | null;
+    userVote!: VotedType;
+    userCreated!: boolean;
+    userSaved!: boolean;
+
+    constructor(data?: ICommentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"] !== undefined ? data["id"] : <any>null;
+            this.parentId = data["parentId"] !== undefined ? data["parentId"] : <any>null;
+            this.postId = data["postId"] !== undefined ? data["postId"] : <any>null;
+            this.description = data["description"] !== undefined ? data["description"] : <any>null;
+            this.created = data["created"] ? new Date(data["created"].toString()) : <any>null;
+            this.updated = data["updated"] ? new Date(data["updated"].toString()) : <any>null;
+            this.commentsCount = data["commentsCount"] !== undefined ? data["commentsCount"] : <any>null;
+            this.savesCount = data["savesCount"] !== undefined ? data["savesCount"] : <any>null;
+            this.userName = data["userName"] !== undefined ? data["userName"] : <any>null;
+            this.userVote = data["userVote"] !== undefined ? data["userVote"] : <any>null;
+            this.userCreated = data["userCreated"] !== undefined ? data["userCreated"] : <any>null;
+            this.userSaved = data["userSaved"] !== undefined ? data["userSaved"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CommentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CommentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["parentId"] = this.parentId !== undefined ? this.parentId : <any>null;
+        data["postId"] = this.postId !== undefined ? this.postId : <any>null;
+        data["description"] = this.description !== undefined ? this.description : <any>null;
+        data["created"] = this.created ? this.created.toISOString() : <any>null;
+        data["updated"] = this.updated ? this.updated.toISOString() : <any>null;
+        data["commentsCount"] = this.commentsCount !== undefined ? this.commentsCount : <any>null;
+        data["savesCount"] = this.savesCount !== undefined ? this.savesCount : <any>null;
+        data["userName"] = this.userName !== undefined ? this.userName : <any>null;
+        data["userVote"] = this.userVote !== undefined ? this.userVote : <any>null;
+        data["userCreated"] = this.userCreated !== undefined ? this.userCreated : <any>null;
+        data["userSaved"] = this.userSaved !== undefined ? this.userSaved : <any>null;
+        return data; 
+    }
+}
+
+export interface ICommentDto {
+    id: number;
+    parentId?: number | null;
+    postId: number;
+    description?: string | null;
+    created: Date;
+    updated: Date;
+    commentsCount: number;
+    savesCount: number;
+    userName?: string | null;
+    userVote: VotedType;
+    userCreated: boolean;
+    userSaved: boolean;
 }
 
 export class CreatePostVM implements ICreatePostVM {

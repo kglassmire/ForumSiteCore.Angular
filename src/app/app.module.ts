@@ -21,6 +21,8 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MomentModule } from 'ngx-moment';
 import { AlertComponent } from './components/alert/alert.component';
+import { PostComponent } from './components/post/post.component';
+import { FourohfourComponent } from './components/fourohfour/fourohfour.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { AlertComponent } from './components/alert/alert.component';
     PostCardComponent,
     LoginReactiveComponent,
     CreatePostComponent,
-    AlertComponent
+    AlertComponent,
+    PostComponent,
+    FourohfourComponent
   ],
   imports: [
     BrowserModule,
