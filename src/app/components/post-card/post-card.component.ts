@@ -53,11 +53,11 @@ export class PostCardComponent implements OnInit {
   save(): void {
     if (this.post.userSaved === true) {
       console.log(`user unsaved post ${this.post.id}`);
-      this.postService.save(this.post.id, false).subscribe(success => console.log(success), error => console.log(error));
+      this.postService.save(this.post.id).subscribe(success => console.log(success), error => console.log(error));
       this.post.userSaved = false;
     } else {
       console.log(`user saved post ${this.post.id}`);
-      this.postService.save(this.post.id, true).subscribe(success => console.log(success), error => console.log(error));
+      this.postService.save(this.post.id).subscribe(success => console.log(success), error => console.log(error));
       this.post.userSaved = true;
     }
   }
@@ -82,22 +82,26 @@ export class PostCardComponent implements OnInit {
     }
 
     console.log(`user voted ${VotedType[voteType]} post ${this.post.id}`);
-    this.postService.vote(this.post.id, voteType).subscribe(success => console.log(success), error => console.log(error));
+    this.postService.vote(this.post.id, voteType)
+      .subscribe(
+        next => console.log('Voted onNext: %s', next),
+        e => console.log('Voted onError: %s', e),
+        () => {
+          if (voteType === VotedType.Up) {
+            if (hasDownvote) {
+              this.post.downvotes--;
+            }
+            this.post.upvotes++;
+            this.post.userVote = VotedType.Up;
+          }
 
-    if (voteType === VotedType.Up) {
-      if (hasDownvote) {
-        this.post.downvotes--;
-      }
-      this.post.upvotes++;
-      this.post.userVote = VotedType.Up;
-    }
-
-    if (voteType === VotedType.Down) {
-      if (hasUpvote) {
-        this.post.upvotes--;
-      }
-      this.post.downvotes++;
-      this.post.userVote = VotedType.Down;
-    }
+          if (voteType === VotedType.Down) {
+            if (hasUpvote) {
+              this.post.upvotes--;
+            }
+            this.post.downvotes++;
+            this.post.userVote = VotedType.Down;
+          }
+        });
   }
 }

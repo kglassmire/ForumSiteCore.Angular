@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, empty } from 'rxjs';
 import { AlertType, Alert } from '../models/alert';
-import { groupBy, mergeMap, reduce } from 'rxjs/operators';
+import { SwaggerException } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,14 @@ export class AlertService {
         }
       }
     });
+  }
+
+  handle500Error(err: any): void {
+    if (SwaggerException.isSwaggerException(err)) {
+      const response = JSON.parse(err.response);
+      // this will data object is a exception which is ISerializable and as a result will not be camelCased.
+      console.log(response.data);
+    }
   }
 
   getAlert(): Observable<Alert> {

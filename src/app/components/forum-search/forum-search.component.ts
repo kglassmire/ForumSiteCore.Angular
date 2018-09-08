@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {Observable, empty } from 'rxjs';
+import {debounceTime, distinctUntilChanged, switchMap, map, catchError } from 'rxjs/operators';
 import { ForumService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from '../../services/alert.service';
+import { AlertType } from '../../models/alert';
 
 @Component({
   selector: 'app-forum-search',
@@ -17,6 +19,7 @@ export class ForumSearchComponent implements OnInit {
 
   constructor(
     private forumService: ForumService,
+    private alertService: AlertService,
     private router: Router
   ) {}
 
@@ -27,8 +30,20 @@ export class ForumSearchComponent implements OnInit {
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      switchMap(term => term.length < 2 ? []
-        : this.forumService.forumSearch(term)))
+      switchMap(term => {
+        return term.length < 2 ? [] : this.forumService.forumSearch(term).pipe(
+          map((x) => {
+            if (x.status === 'failure') {
+              return [x.message];
+            } else {
+              return x.data;
+            }
+        }), catchError((err) => {
+          this.alertService.handle500Error(err);
+          this.alertService.alert(AlertType.Error, 'Error while searching', 'forum-search-component-search-error', false);
+          return empty();
+        }));
+      }))
 
 
   selectedItem(event: NgbTypeaheadSelectItemEvent): void {
