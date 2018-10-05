@@ -57,6 +57,7 @@ export class LoginReactiveComponent implements OnInit {
       }, () => {
         console.log('Login complete.');
         if (this.loginForm) {
+          this.alertService.clear();
           this.loginForm.reset();
         }
       });
